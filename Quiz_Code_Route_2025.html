@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Code de la Route 2025</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 40px; }
+    h1 { text-align: center; color: #2c3e50; }
+    .quiz-container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    .question { font-weight: bold; margin: 20px 0 10px; }
+    button { margin-top: 20px; padding: 10px 20px; border: none; border-radius: 8px; background: #3498db; color: white; font-size: 16px; cursor: pointer; }
+    button:hover { background: #2980b9; }
+    .result { font-size: 18px; margin-top: 20px; padding: 10px; border-radius: 8px; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz Code de la Route 2025</h1>
+    <form id="quizForm">
+      <div class="question">1. La vitesse maximale sur autoroute est de 130 km/h (hors pluie et conditions particulières).</div>
+      <label><input type="radio" name="q1" value="vrai"> Vrai</label><br>
+      <label><input type="radio" name="q1" value="faux"> Faux</label>
+
+      <div class="question">2. La circulation inter-files est désormais autorisée partout en France.</div>
+      <label><input type="radio" name="q2" value="vrai"> Vrai</label><br>
+      <label><input type="radio" name="q2" value="faux"> Faux</label>
+
+      <div class="question">3. Le taux d'alcool maximal pour un conducteur en permis probatoire est de 0,2 g/L.</div>
+      <label><input type="radio" name="q3" value="vrai"> Vrai</label><br>
+      <label><input type="radio" name="q3" value="faux"> Faux</label>
+
+      <div class="question">4. Un panneau triangulaire rouge signifie toujours une obligation.</div>
+      <label><input type="radio" name="q4" value="vrai"> Vrai</label><br>
+      <label><input type="radio" name="q4" value="faux"> Faux</label>
+
+      <div class="question">5. Le téléphone tenu en main entraîne un retrait de points.</div>
+      <label><input type="radio" name="q5" value="vrai"> Vrai</label><br>
+      <label><input type="radio" name="q5" value="faux"> Faux</label>
+
+      <button type="button" onclick="checkAnswers()">Valider</button>
+    </form>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      const answers = {q1: 'vrai', q2: 'faux', q3: 'vrai', q4: 'faux', q5: 'vrai'};
+      let score = 0;
+      let resultHTML = '';
+      for (let q in answers) {
+        const radios = document.getElementsByName(q);
+        let selected = '';
+        for (const radio of radios) {
+          if (radio.checked) selected = radio.value;
+        }
+        if (selected === answers[q]) {
+          score++;
+          resultHTML += '<p class="correct">✔ ' + q.toUpperCase() + ' correct</p>';
+        } else {
+          resultHTML += '<p class="incorrect">✘ ' + q.toUpperCase() + ' incorrect (réponse : ' + answers[q] + ')</p>';
+        }
+      }
+      resultHTML += '<p><strong>Score final : ' + score + '/5</strong></p>';
+      document.getElementById('result').innerHTML = resultHTML;
+    }
+  </script>
+</body>
+</html>
