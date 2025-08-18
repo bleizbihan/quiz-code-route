@@ -1,71 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Code de la Route 2025</title>
+  <title>Quiz Code de la Route 2025 — 40 Questions Aléatoires</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 40px; }
+    body { font-family: Arial, sans-serif; background: #fefefe; margin: 20px; }
     h1 { text-align: center; color: #2c3e50; }
-    .quiz-container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-    .question { font-weight: bold; margin: 20px 0 10px; }
-    button { margin-top: 20px; padding: 10px 20px; border: none; border-radius: 8px; background: #3498db; color: white; font-size: 16px; cursor: pointer; }
+    .question { margin: 15px 0; padding: 10px; border: 1px solid #ccc; border-radius: 8px; background: #fafafa; }
+    .answers label { display: block; margin: 5px 0; cursor: pointer; }
+    button { margin: 20px 0; padding: 10px 20px; font-size: 16px; border: none; background: #3498db; color: white; border-radius: 8px; cursor: pointer; }
     button:hover { background: #2980b9; }
-    .result { font-size: 18px; margin-top: 20px; padding: 10px; border-radius: 8px; }
+    .result { font-size: 18px; margin-top: 20px; }
     .correct { color: green; }
-    .incorrect { color: red; }
+    .wrong { color: red; }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <h1>Quiz Code de la Route 2025</h1>
-    <form id="quizForm">
-      <div class="question">1. La vitesse maximale sur autoroute est de 130 km/h (hors pluie et conditions particulières).</div>
-      <label><input type="radio" name="q1" value="vrai"> Vrai</label><br>
-      <label><input type="radio" name="q1" value="faux"> Faux</label>
+  <h1>Quiz Code de la Route — 40 Questions Aléatoires</h1>
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">Corriger</button>
+  <div id="result" class="result"></div>
 
-      <div class="question">2. La circulation inter-files est désormais autorisée partout en France.</div>
-      <label><input type="radio" name="q2" value="vrai"> Vrai</label><br>
-      <label><input type="radio" name="q2" value="faux"> Faux</label>
+<script>
+// Base de questions (exemples représentatifs, à compléter selon tes besoins)
+const allQuestions = [
+  {q: "1. La vitesse maximale sur autoroute par temps sec est 130 km/h.", a:["Vrai","Faux"], correct:0},
+  {q: "2. En zone 30, la vitesse est limitée à 30 km/h.", a:["Vrai","Faux"], correct:0},
+  {q: "3. Le taux maximum pour le permis probatoire est 0,2 g/L.", a:["Vrai","Faux"], correct:0},
+  {q: "4. On peut franchir une ligne continue pour dépasser.", a:["Vrai","Faux"], correct:1},
+  {q: "5. Les piétons sont prioritaires aux passages piétons.", a:["Vrai","Faux"], correct:0},
+  // Ajoute ici des dizaines d’autres questions couvrant les 10 thèmes...
+];
 
-      <div class="question">3. Le taux d'alcool maximal pour un conducteur en permis probatoire est de 0,2 g/L.</div>
-      <label><input type="radio" name="q3" value="vrai"> Vrai</label><br>
-      <label><input type="radio" name="q3" value="faux"> Faux</label>
+// Tirage aléatoire de 40 questions
+function getRandomQuestions(n) {
+  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, n);
+}
 
-      <div class="question">4. Un panneau triangulaire rouge signifie toujours une obligation.</div>
-      <label><input type="radio" name="q4" value="vrai"> Vrai</label><br>
-      <label><input type="radio" name="q4" value="faux"> Faux</label>
+const quizContainer = document.getElementById('quiz');
+const selectedQuestions = getRandomQuestions(40);
 
-      <div class="question">5. Le téléphone tenu en main entraîne un retrait de points.</div>
-      <label><input type="radio" name="q5" value="vrai"> Vrai</label><br>
-      <label><input type="radio" name="q5" value="faux"> Faux</label>
+selectedQuestions.forEach((item, idx) => {
+  const div = document.createElement('div');
+  div.className = 'question';
+  div.innerHTML = `<strong>${item.q}</strong>`;
+  item.a.forEach((ans, i) => {
+    const id = `q${idx}_a${i}`;
+    div.innerHTML += `
+      <label><input type="radio" name="q${idx}" value="${i}" id="${id}"> ${ans}</label>`;
+  });
+  quizContainer.appendChild(div);
+});
 
-      <button type="button" onclick="checkAnswers()">Valider</button>
-    </form>
-    <div id="result" class="result"></div>
-  </div>
-
-  <script>
-    function checkAnswers() {
-      const answers = {q1: 'vrai', q2: 'faux', q3: 'vrai', q4: 'faux', q5: 'vrai'};
-      let score = 0;
-      let resultHTML = '';
-      for (let q in answers) {
-        const radios = document.getElementsByName(q);
-        let selected = '';
-        for (const radio of radios) {
-          if (radio.checked) selected = radio.value;
-        }
-        if (selected === answers[q]) {
-          score++;
-          resultHTML += '<p class="correct">✔ ' + q.toUpperCase() + ' correct</p>';
-        } else {
-          resultHTML += '<p class="incorrect">✘ ' + q.toUpperCase() + ' incorrect (réponse : ' + answers[q] + ')</p>';
-        }
-      }
-      resultHTML += '<p><strong>Score final : ' + score + '/5</strong></p>';
-      document.getElementById('result').innerHTML = resultHTML;
-    }
-  </script>
+function submitQuiz() {
+  let score = 0;
+  selectedQuestions.forEach((item, idx) => {
+    const radios = document.getElementsByName(`q${idx}`);
+    let selected = null;
+    for (const r of radios) if (r.checked) selected = parseInt(r.value);
+    if (selected === item.correct) score++;
+  });
+  document.getElementById('result').innerHTML = `<strong>Tu as obtenu ${score} / 40.</strong>` +
+    (score >= 35 ? 
+      `<p class="correct">Félicitations, tu aurais réussi l'examen (≥ 35 bonnes réponses).</p>` : 
+      `<p class="wrong">Il faut au moins 35 bonnes réponses pour réussir.</p>`);
+}
+</script>
 </body>
 </html>
